@@ -1,21 +1,29 @@
-# Need a GitHub Advanced Security license to run this action on private repos.
+---
+name: Dependency review
 
-name: Dependency Review
 on:
   pull_request:
-    types: [opened, edited, reopened, synchronize]
+    types:
+      - edited
+      - opened
+      - reopened
+      - synchronize
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   dependency-review:
+    name: Dependency review
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Dependency Review
-        uses: actions/dependency-review-action@v3
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Dependency review
+        id: dependency_review
+        uses: actions/dependency-review-action@6c5ccdad469c9f8a2996bfecaec55a631a347034 # v3.1.0
         with:
-          # Possible values: critical, high, moderate, low 
           fail-on-severity: critical
