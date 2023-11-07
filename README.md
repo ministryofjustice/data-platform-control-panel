@@ -16,10 +16,10 @@ You will also need to have Postgresql installed and running on your machine.
 
 ### Pre-commit
 
-To avoid pushing code and seeing the github actions fail due to linting errors, when installing the project for the
+To avoid pushing code and seeing the Github actions fail due to linting errors, when installing the project for the
 first time you should install the pre-commit hooks with:
 
-```
+```commandline
 pre-commit install
 ```
 

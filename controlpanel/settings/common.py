@@ -21,9 +21,7 @@ PROJECT_NAME = "controlpanel"
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = (
-    "django-insecure-!-2v1ja--!*$lz3q6ox+(_d_cc68d5s#72ia-*_&!dom3#$zjn"
-)
+SECRET_KEY = "django-insecure-!-2v1ja--!*$lz3q6ox+(_d_cc68d5s#72ia-*_&!dom3#$zjn"
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -82,9 +80,7 @@ WSGI_APPLICATION = "controlpanel.wsgi.application"
 DB_HOST = os.environ.get("DB_HOST", "127.0.0.1")
 ENABLE_DB_SSL = (
     str(
-        os.environ.get(
-            "ENABLE_DB_SSL", DB_HOST not in ["127.0.0.1", "localhost"]
-        )
+        os.environ.get("ENABLE_DB_SSL", DB_HOST not in ["127.0.0.1", "localhost"])
     ).lower()
     == "true"
 )
