@@ -7,4 +7,4 @@ npm install --global npm@latest
 pip install --upgrade pip
 
 # Start Postgres
-docker-compose --file contrib/docker-compose-postgres.yml up --detach
+docker compose --file contrib/docker-compose-postgres.yml up --detach
