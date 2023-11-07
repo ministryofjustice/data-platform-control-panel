@@ -1,1 +1,1 @@
-from controlpanel.settings.common import *
+from controlpanel.settings.common import *  # noqa

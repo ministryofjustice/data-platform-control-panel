@@ -21,12 +21,14 @@ PROJECT_NAME = "controlpanel"
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-!-2v1ja--!*$lz3q6ox+(_d_cc68d5s#72ia-*_&!dom3#$zjn"
+SECRET_KEY = (
+    "django-insecure-!-2v1ja--!*$lz3q6ox+(_d_cc68d5s#72ia-*_&!dom3#$zjn"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: list = []
 
 
 # Application definition
@@ -50,7 +52,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'controlpanel.urls'
+ROOT_URLCONF = "controlpanel.urls"
 
 TEMPLATES = [
     {
@@ -68,7 +70,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'controlpanel.wsgi.application'
+
+WSGI_APPLICATION = "controlpanel.wsgi.application"
 
 
 # Database
@@ -78,13 +81,15 @@ WSGI_APPLICATION = 'controlpanel.wsgi.application'
 DB_HOST = os.environ.get("DB_HOST", "127.0.0.1")
 ENABLE_DB_SSL = (
     str(
-        os.environ.get("ENABLE_DB_SSL", DB_HOST not in ["127.0.0.1", "localhost"])
+        os.environ.get(
+            "ENABLE_DB_SSL", DB_HOST not in ["127.0.0.1", "localhost"]
+        )
     ).lower()
     == "true"
 )
-DATABASES = {
+DATABASES: dict = {
     "default": {
-        "ENGINE": "django_prometheus.db.backends.postgresql",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": os.environ.get("DB_NAME", PROJECT_NAME),
         "USER": os.environ.get("DB_USER", ""),
         "PASSWORD": os.environ.get("DB_PASSWORD", ""),
@@ -102,16 +107,16 @@ if ENABLE_DB_SSL:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",  # noqa
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",  # noqa
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",  # noqa
     },
 ]
 
