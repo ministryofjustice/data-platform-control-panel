@@ -12,6 +12,7 @@
     "./features/src/postgresql": {}
   },
   "postCreateCommand": "bash scripts/devcontainer/post-create.sh",
+  "runArgs": ["--name=data-platform-control-panel-devcontainer"],
   "customizations": {
     "vscode": {
       "extensions": [
