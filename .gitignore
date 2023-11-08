@@ -10,3 +10,6 @@ env/
 terraform.tfstate
 super-linter.log
 .mypy_cache/
+.idea/
+__pycache__
+*.egg-info/

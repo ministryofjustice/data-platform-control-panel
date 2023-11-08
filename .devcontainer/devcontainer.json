@@ -7,9 +7,13 @@
     },
     "ghcr.io/devcontainers/features/python:1": {
       "version": "3.11"
-    }
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "./features/src/postgresql": {}
   },
   "postCreateCommand": "bash scripts/devcontainer/post-create.sh",
+  "postStartCommand": "bash scripts/devcontainer/post-start.sh",
+  "runArgs": ["--name=data-platform-control-panel-devcontainer"],
   "customizations": {
     "vscode": {
       "extensions": [
