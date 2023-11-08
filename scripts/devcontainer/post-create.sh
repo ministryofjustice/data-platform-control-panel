@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Fix directory
-# git config --global --add safe.directory /workspaces/data-platform-control-panel
-
 # Upgrade NPM
 npm install --global npm@latest
 
@@ -16,4 +13,4 @@ pip install --upgrade pip
 pip install -r requirements.dev.txt
 
 # Install precommit hooks
-# pre-commit install
+pre-commit install

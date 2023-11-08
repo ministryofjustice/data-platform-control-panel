@@ -11,7 +11,7 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "./features/src/postgresql": {}
   },
-  "postCreateCommand": "bash scripts/devcontainer/post-create.sh",
+  "postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && bash scripts/devcontainer/post-create.sh",
   "runArgs": ["--name=data-platform-control-panel-devcontainer"],
   "customizations": {
     "vscode": {
