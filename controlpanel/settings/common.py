@@ -145,7 +145,13 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 # Directory to collect static files into
-STATIC_ROOT = join(PROJECT_ROOT, "static")
+# STATIC_ROOT = join(PROJECT_ROOT, "static")
+STATIC_ROOT = join(PROJECT_ROOT, "run", "static")
+
+# Django looks in these locations for additional static assets to collect
+STATICFILES_DIRS = [
+    join(PROJECT_ROOT, "static"),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
