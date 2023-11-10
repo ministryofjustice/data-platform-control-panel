@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # web frontend
+    "govuk_frontend_django",
     "controlpanel.interfaces.web",
 ]
 
