@@ -46,8 +46,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # third party
-    "django_sass",
     # web frontend
     "controlpanel.interfaces.web",
 ]
