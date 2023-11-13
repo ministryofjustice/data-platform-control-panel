@@ -33,7 +33,7 @@ This will run black, mypy, flake8 and isort before a commit to check for failure
 There is a Makefile to wrap commands used to build the static files. When setting up the project, run all steps using the command:
 
 ```commandline
-make
+make build
 ```
 
 Or look at the Makefile and run the individual commands as you require.

@@ -1,4 +1,4 @@
-all:
+build:
 	make build-static
 	make build-js
 
