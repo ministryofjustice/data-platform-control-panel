@@ -1,25 +1,21 @@
-{% load static %}
-{% load govuk_frontend_django %}
+{% extends "govuk_frontend_django/base.html" %}
+{% load static govuk_frontend_django %}
+
+{% block title %}GOV.UK Frontend Django example project{% endblock title %}
+
+{% block head %}
+    <link href="{% static 'app.css' %}" rel="stylesheet" type="text/css" />
+{% endblock head %}
+
+{% block header %}
+    {% gds_header homepageUrl="/" serviceName="GOV.UK Frontend Django example project" serviceUrl="/" containerClasses="govuk-width-container" %}
+        {% gds_header_nav_item href="/" text="Components" %}
+        {% gds_header_nav_item href="/" text="User list" %}
+    {% endgds_header %}
+{% endblock header %}
 
 
-<head>
-  <link rel="stylesheet" href="{% static 'app.css' %}">
-</head>
-
-
-<body>
-  <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-
-  {% gds_header homepageUrl="/" productName="Data Platform Control Panel" serviceName="Data Platform Control Panel" serviceUrl="/" %}
-      {% gds_header_nav_item href="/" %}
-          Data products
-      {% endgds_header_nav_item %}
-      {% gds_header_nav_item href="/" text="Tools" %}
-  {% endgds_header %}
-
-    <script src="{% static 'assets/js/govuk.js' %}"></script>
-    <script>
-      window.GOVUKFrontend.initAll()
-    </script>
-
-</body>
+{% block body_end %}
+    <script src='{% static "assets/js/govuk.js" %}'></script>
+    <script>window.GOVUKFrontend.initAll()</script>
+{% endblock body_end %}
