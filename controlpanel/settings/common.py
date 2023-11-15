@@ -89,9 +89,7 @@ WSGI_APPLICATION = "controlpanel.wsgi.application"
 # -- Database
 DB_HOST = os.environ.get("DB_HOST", "127.0.0.1")
 ENABLE_DB_SSL = (
-    str(
-        os.environ.get("ENABLE_DB_SSL", DB_HOST not in ["127.0.0.1", "localhost"])
-    ).lower()
+    str(os.environ.get("ENABLE_DB_SSL", DB_HOST not in ["127.0.0.1", "localhost"])).lower()
     == "true"
 )
 DATABASES: dict = {
