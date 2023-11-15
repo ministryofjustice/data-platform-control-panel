@@ -1,0 +1,18 @@
+{% if user %}
+<pre>
+{{ user.email }}
+{{ user.name }}
+{{ user.user_id }}
+</pre>
+
+<h1>User list</h1>
+{% for user in users %}
+    <li>{{ user.name }}: {{ user.nickname }}, {{ user.email }} </li>
+{% endfor %}
+<hr>
+<a href="/logout/">logout</a>
+<br/>
+<a href="/logout?reset=true">Reset session</a>
+{% else %}
+<a href="/login/">login</a>
+{% endif %}
