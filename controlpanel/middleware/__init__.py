@@ -1,2 +1,2 @@
-from controlpanel.middleware.never_cache import \
-    DisableClientSideCachingMiddleware
+from controlpanel.middleware.never_cache import DisableClientSideCachingMiddleware
+

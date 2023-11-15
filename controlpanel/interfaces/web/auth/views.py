@@ -51,7 +51,7 @@ class OIDCAuthenticationView(View):
             else:
                 self._login_success(request, user, token)
                 return redirect("/")
-        except OAuthError as ex:
+        except OAuthError:
             return self._login_failure()
 
 
