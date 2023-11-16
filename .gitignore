@@ -13,3 +13,6 @@ super-linter.log
 .idea/
 __pycache__
 *.egg-info/
+node_modules/
+/static/
+/run/

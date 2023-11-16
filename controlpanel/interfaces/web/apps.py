@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class CliConfig(AppConfig):
+class WebInterfaceConfig(AppConfig):
     name = "controlpanel.interfaces.web"

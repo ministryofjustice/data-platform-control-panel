@@ -1,0 +1,19 @@
+{
+  "name": "data-platform-control-panel",
+  "version": "1.0.0",
+  "description": "Data Platform Control Panel",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css": "sass --load-path=node_modules/ --style=compressed controlpanel/interfaces/web/static/app.scss:static/app.css"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.69.5"
+  },
+  "dependencies": {
+    "govuk-frontend": "^4.7.0"
+  }
+}
