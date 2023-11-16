@@ -26,6 +26,4 @@ class User(AbstractUser):
         return sanitize_dns_label(name)
 
     def save(self, *args, **kwargs):
-        if not self.username:
-            self.username = User.construct_username(self.name)
         return super().save(*args, **kwargs)

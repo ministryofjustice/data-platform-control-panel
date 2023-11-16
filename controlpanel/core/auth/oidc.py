@@ -1,5 +1,4 @@
 from authlib.integrations.django_client import OAuth, OAuthError, token_update
-
 from django.conf import settings
 from django.dispatch import receiver
 from django.urls import reverse
@@ -42,9 +41,7 @@ class OIDCSubAuthenticationBackend:
             return User.objects.none()
 
     def _get_username(self, user_info):
-        return user_info.get("username") or User.construct_username(
-            user_info.get("name")
-        )
+        return user_info.get("username") or User.construct_username(user_info.get("name"))
 
     def _create_user(self):
         user_info = self.token.get("userinfo")
@@ -99,9 +96,7 @@ class OIDCSessionValidator:
     def _refresh_by_silence_auth(self):
         try:
             redirect_uri = self.request.build_absolute_uri(reverse("authenticate"))
-            return oauth.auth0.authorize_redirect(
-                self.request, redirect_uri, prompt="none"
-            )
+            return oauth.auth0.authorize_redirect(self.request, redirect_uri, prompt="none")
         except OAuthError as ex:
             return False
 
