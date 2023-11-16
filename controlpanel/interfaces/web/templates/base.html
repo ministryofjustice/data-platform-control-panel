@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% extends "govuk_frontend_django/base.html" %}
+{% load static govuk_frontend_django %}
+
+{% block title %}Data platform Control panel{% endblock title %}
+
+{% block head %}
+    <link href="{% static 'app.css' %}" rel="stylesheet" type="text/css" />
+{% endblock head %}
+
+{% block header %}
+    {% gds_header homepageUrl="/" serviceName="Data platform Control panel" serviceUrl="/" containerClasses="govuk-width-container" %}
+        {% gds_header_nav_item href="/" text="Components" %}
+        {% gds_header_nav_item href="/" text="User list" %}
+    {% endgds_header %}
+{% endblock header %}
+
+
+{% block body_end %}
+    <script src="{% static 'assets/js/govuk.js' %}"></script>
+    <script>window.GOVUKFrontend.initAll()</script>
+{% endblock body_end %}

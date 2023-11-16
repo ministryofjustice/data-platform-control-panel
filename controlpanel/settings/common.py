@@ -10,12 +10,20 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+from os.path import abspath, dirname, join
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Name of the project
 PROJECT_NAME = "controlpanel"
+
+# Absolute path of project Django directory
+DJANGO_ROOT = dirname(dirname(abspath(__file__)))
+
+# Absolute path of project directory
+PROJECT_ROOT = dirname(DJANGO_ROOT)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -38,6 +46,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # web frontend
+    "govuk_frontend_django",
+    "controlpanel.interfaces.web",
 ]
 
 MIDDLEWARE = [
@@ -131,6 +142,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+
+# Directory to collect static files into
+# STATIC_ROOT = join(PROJECT_ROOT, "static")
+STATIC_ROOT = join(PROJECT_ROOT, "run", "static")
+
+# Django looks in these locations for additional static assets to collect
+STATICFILES_DIRS = [
+    join(PROJECT_ROOT, "static"),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
