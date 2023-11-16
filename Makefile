@@ -1,7 +1,10 @@
+#!make
+-include .env.local
+export
+
 build:
 	make build-static
 	make build-js
-
 
 build-static:
 	mkdir -p static/assets/fonts
@@ -10,7 +13,18 @@ build-static:
 	cp -R node_modules/govuk-frontend/govuk/assets/images/. static/assets/images
 	npm run css
 
-
 build-js:
 	mkdir -p static/assets/js
 	cp node_modules/govuk-frontend/govuk/all.js static/assets/js/govuk.js
+
+db-migrate:
+	python manage.py migrate
+
+db-connect:
+	psql --username=controlpanel --host=localhost --dbname=controlpanel
+
+db-drop:
+	python manage.py reset_db
+
+serve:
+	python manage.py runserver
