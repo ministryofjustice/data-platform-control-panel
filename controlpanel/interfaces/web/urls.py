@@ -1,5 +1,5 @@
-from django.urls import path
 from controlpanel.interfaces.web import views
+from django.urls import path
 
 
 urlpatterns = [
