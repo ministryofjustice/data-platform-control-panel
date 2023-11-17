@@ -1,6 +1,4 @@
 #!make
--include .env.local
-export
 
 build:
 	make build-static
