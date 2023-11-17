@@ -18,9 +18,6 @@ build-js:
 db-migrate:
 	python manage.py migrate
 
-db-connect:
-	psql --username=controlpanel --host=localhost --dbname=controlpanel
-
 db-drop:
 	python manage.py reset_db
 
