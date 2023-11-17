@@ -3,4 +3,4 @@ from controlpanel.interfaces.web.auth.views import (
     LogoutView,
     OIDCAuthenticationView,
     OIDCLoginView,
-)
+)  # noqa

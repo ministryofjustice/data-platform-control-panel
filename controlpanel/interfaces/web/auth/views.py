@@ -58,10 +58,6 @@ class OIDCAuthenticationView(View):
 class OIDCLogoutView(View):
     http_method_names = ["get", "post"]
 
-    def _get_default_redirect_url(self):
-        """Return the logout url defined in settings."""
-        return settings.LOGOUT_REDIRECT_URL
-
     def _get_oidc_logout_redirect_url(self, request):
         params = urlencode(
             {
@@ -72,11 +68,7 @@ class OIDCLogoutView(View):
         return f"{settings.OIDC_LOGOUT_URL}?{params}"
 
     def post(self, request):
-        require_reset = request.GET.get("reset") == "true"
-        if require_reset:
-            logout_url = self._get_oidc_logout_redirect_url(request)
-        else:
-            logout_url = self._get_default_redirect_url()
+        logout_url = self._get_oidc_logout_redirect_url(request)
 
         if request.user.is_authenticated:
             auth.logout(request)

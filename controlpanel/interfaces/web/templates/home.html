@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+
+{% extends "base.html" %}
+
+{% block content %}
+
 {% if user %}
 <pre>
 {{ user.email }}
@@ -13,7 +18,8 @@
 <hr>
 <a href="/logout/">logout</a>
 <br/>
-<a href="/logout?reset=true">Reset session</a>
 {% else %}
 <a href="/login/">login</a>
 {% endif %}
+
+{% endblock %}
