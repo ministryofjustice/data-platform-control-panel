@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_extensions",
     "govuk_frontend_django",
     "controlpanel.core",
     "controlpanel.interfaces.web",
