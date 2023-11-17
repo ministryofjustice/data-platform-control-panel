@@ -1,10 +1,9 @@
 from authlib.integrations.django_client import OAuth, OAuthError, token_update
+from controlpanel.core.models.user import User
 from django.conf import settings
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-
-from controlpanel.core.models.user import User
 
 oauth = OAuth()
 oauth.register("auth0", **(settings.AUTHLIB_OAUTH_CLIENTS["auth0"]))
@@ -97,7 +96,7 @@ class OIDCSessionValidator:
         try:
             redirect_uri = self.request.build_absolute_uri(reverse("authenticate"))
             return oauth.auth0.authorize_redirect(self.request, redirect_uri, prompt="none")
-        except OAuthError as ex:
+        except OAuthError:
             return False
 
     def _has_access_token_expired(self):

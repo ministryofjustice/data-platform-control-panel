@@ -1,5 +1,4 @@
-from controlpanel.interfaces.web import data_products
-from controlpanel.interfaces.web import auth
+from controlpanel.interfaces.web import auth, data_products
 from controlpanel.interfaces.web.views import IndexView
 from django.urls import path
 

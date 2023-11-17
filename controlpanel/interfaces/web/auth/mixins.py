@@ -1,6 +1,5 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-
 from controlpanel.core.auth import OIDCSessionValidator
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class OIDCLoginRequiredMixin(LoginRequiredMixin):

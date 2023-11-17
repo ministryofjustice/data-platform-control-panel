@@ -1,1 +1,1 @@
-from controlpanel.core.models.user import User
+from controlpanel.core.models.user import User  # noqa
