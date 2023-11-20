@@ -1,5 +1,8 @@
-from controlpanel.core.auth import OIDCSessionValidator
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
+from django.urls import reverse
+
+from controlpanel.core.auth import OIDCSessionValidator
 
 
 class OIDCLoginRequiredMixin(LoginRequiredMixin):
@@ -7,7 +10,7 @@ class OIDCLoginRequiredMixin(LoginRequiredMixin):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return self.handle_no_permission()
+            return redirect(reverse("login"))
         if OIDCSessionValidator(request).expired():
-            return self.handle_no_permission()
+            return redirect(reverse("login"))
         return super().dispatch(request, *args, **kwargs)

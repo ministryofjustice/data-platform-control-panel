@@ -1,9 +1,14 @@
-from authlib.integrations.django_client import OAuth, OAuthError, token_update
-from controlpanel.core.models.user import User
 from django.conf import settings
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
+
+import structlog
+from authlib.integrations.django_client import OAuth, OAuthError, token_update
+
+from controlpanel.core.models.user import User
+
+logger = structlog.get_logger(__name__)
 
 oauth = OAuth()
 oauth.register("auth0", **(settings.AUTHLIB_OAUTH_CLIENTS["auth0"]))
@@ -21,7 +26,7 @@ def on_token_update(sender, token, refresh_token=None, access_token=None, **kwar
     access_token manually
     """
     if refresh_token:
-        print("The token has been refreshed by using refresh_token")
+        logger.info("The token has been refreshed by using refresh_token")
 
 
 class OIDCSubAuthenticationBackend:
@@ -93,10 +98,15 @@ class OIDCSessionValidator:
         self.request = request
 
     def _refresh_by_silence_auth(self):
+        """TBD should we re-auth silent before token is expired just for covering
+        the timing issue if someone is removed from IDP, but this user is still valid user
+        and has valid session with Control panel at that moment?
+        """
         try:
             redirect_uri = self.request.build_absolute_uri(reverse("authenticate"))
             return oauth.auth0.authorize_redirect(self.request, redirect_uri, prompt="none")
-        except OAuthError:
+        except OAuthError as ex:
+            logger.debug("Failed to perform silence-auth due to error (%s)", ex.__str__())
             return False
 
     def _has_access_token_expired(self):
