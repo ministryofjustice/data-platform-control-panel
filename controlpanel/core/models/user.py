@@ -12,7 +12,7 @@ class User(AbstractUser):
 
     class Meta:
         db_table = "control_panel_user"
-        ordering = ("nickname",)
+        ordering = ("name",)
 
     def __repr__(self):
         return f"<User: {self.username} ({self.user_id})>"
