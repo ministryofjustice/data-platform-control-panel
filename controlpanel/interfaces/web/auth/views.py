@@ -1,14 +1,16 @@
 import time
 from urllib.parse import urlencode
 
-from authlib.integrations.django_client import OAuthError
-from controlpanel.core.auth import OIDCSubAuthenticationBackend, oauth
 from django.conf import settings
 from django.contrib import auth
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, View
+
+from authlib.integrations.django_client import OAuthError
+
+from controlpanel.core.auth import OIDCSubAuthenticationBackend, oauth
 
 
 class OIDCLoginView(View):

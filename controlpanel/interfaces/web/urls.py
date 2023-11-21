@@ -1,6 +1,7 @@
+from django.urls import path
+
 from controlpanel.interfaces.web import auth, data_products
 from controlpanel.interfaces.web.views import IndexView
-from django.urls import path
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),

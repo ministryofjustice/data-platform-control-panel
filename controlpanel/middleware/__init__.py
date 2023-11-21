@@ -1,3 +1,2 @@
-from controlpanel.middleware.never_cache import (  # noqa
-    DisableClientSideCachingMiddleware,
-)
+from controlpanel.middleware.never_cache import \
+    DisableClientSideCachingMiddleware  # noqa
