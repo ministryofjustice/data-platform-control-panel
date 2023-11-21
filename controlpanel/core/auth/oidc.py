@@ -35,14 +35,7 @@ class OIDCSubAuthenticationBackend:
 
     def filter_users_by_claims(self):
         user_id = self.token.get("userinfo", {}).get("sub")
-        if not user_id:
-            return User.objects.none()
-
-        try:
-            user = User.objects.get(pk=user_id)
-            return user
-        except User.DoesNotExist:
-            return User.objects.none()
+        return User.objects.filter(pk=user_id).first()
 
     def _get_username(self, user_info):
         return user_info.get("username") or User.construct_username(user_info.get("name"))
