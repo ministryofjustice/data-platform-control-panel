@@ -89,7 +89,6 @@ class OIDCSubAuthenticationBackend:
             return self._update_user(user)
         else:
             return self._create_user()
-        return None
 
 
 class OIDCSessionValidator:
