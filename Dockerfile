@@ -24,6 +24,7 @@ COPY controlpanel controlpanel
 
 RUN pip install --requirement requirements.txt
 RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN python manage.py collectstatic --noinput --ignore=*.scss
 
 EXPOSE 8000
 
