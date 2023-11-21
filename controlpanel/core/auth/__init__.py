@@ -1,2 +1,5 @@
-from controlpanel.core.auth.oidc import (OIDCSessionValidator,  # noqa
-                                         OIDCSubAuthenticationBackend, oauth)
+from controlpanel.core.auth.oidc import (  # noqa
+    OIDCSessionValidator,
+    OIDCSubAuthenticationBackend,
+    oauth,
+)

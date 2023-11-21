@@ -1,4 +1,6 @@
-from controlpanel.interfaces.web.auth.views import (LoginFail,  # noqa
-                                                    LogoutView,
-                                                    OIDCAuthenticationView,
-                                                    OIDCLoginView)
+from controlpanel.interfaces.web.auth.views import (  # noqa
+    LoginFail,
+    LogoutView,
+    OIDCAuthenticationView,
+    OIDCLoginView,
+)
