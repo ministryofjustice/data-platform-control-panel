@@ -5,7 +5,7 @@ MODE=${MODE:-"run"}
 case "$MODE" in
     "run")
         echo "Running Django server"
-        python manage.py runserver
+        python manage.py runserver --verbosity 2
         ;;
     "migrate")
         echo "Running Django migrations"
