@@ -16,7 +16,7 @@
     <li>{{ user.name }}: {{ user.nickname }}, {{ user.email }} </li>
 {% endfor %}
 <hr>
-<a href="/logout/">logout</a>
+<a href="{% url 'logout' %}">logout</a>
 <br/>
 {% else %}
 <a href="/login/">login</a>
