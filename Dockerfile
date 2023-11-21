@@ -19,5 +19,13 @@ COPY --from=build-node node_modules/govuk-frontend/govuk/assets/fonts/. static/a
 COPY --from=build-node node_modules/govuk-frontend/govuk/assets/images/. static/assets/images
 COPY --from=build-node node_modules/govuk-frontend/govuk/all.js static/assets/js/govuk.js
 COPY requirements.txt ./
+COPY scripts/container/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN pip install --requirement requirements.txt
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+EXPOSE 8000
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+CMD ["run"]
