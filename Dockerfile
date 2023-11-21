@@ -10,8 +10,14 @@ FROM public.ecr.aws/docker/library/python:3.11-alpine3.18 AS final
 
 WORKDIR /controlpanel
 
-COPY --from=build-node static/app.css static/app.css
+RUN mkdir --parents static/assets/fonts \
+    && mkdir --parents static/assets/images \
+    && mkdir --parents static/assets/js
 
+COPY --from=build-node static/app.css static/app.css
+COPY --from=build-node node_modules/govuk-frontend/govuk/assets/fonts/. static/assets/fonts
+COPY --from=build-node node_modules/govuk-frontend/govuk/assets/images/. static/assets/images
+COPY --from=build-node node_modules/govuk-frontend/govuk/all.js static/assets/js/govuk.js
 COPY requirements.txt ./
 
 RUN pip install --requirement requirements.txt
