@@ -7,13 +7,16 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "css": "sass --load-path=node_modules/ --style=compressed controlpanel/interfaces/web/static/app.scss:static/app.css"
+    "css": "sass --load-path=./ --style=compressed controlpanel/interfaces/web/static/app.scss:static/app.css"
   },
   "license": "MIT",
   "devDependencies": {
     "sass": "1.69.5"
   },
   "dependencies": {
-    "govuk-frontend": "4.7.0"
+    "@ministryofjustice/frontend": "1.8.1",
+    "govuk-frontend": "4.7.0",
+    "jquery": "3.7.1",
+    "nunjucks": "3.2.4"
   }
 }
