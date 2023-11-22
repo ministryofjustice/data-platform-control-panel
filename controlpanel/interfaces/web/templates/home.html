@@ -19,7 +19,7 @@
 <a href="{% url 'logout' %}">logout</a>
 <br/>
 {% else %}
-<a href="/login/">login</a>
+<a href="{% url 'login' %}">login</a>
 {% endif %}
 
 {% endblock %}
