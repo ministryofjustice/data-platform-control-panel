@@ -86,6 +86,14 @@ ROOT_URLCONF = "controlpanel.urls"
 
 TEMPLATES = [
     {
+        "BACKEND": "django.template.backends.jinja2.Jinja2",
+        "DIRS": [join(DJANGO_ROOT, "interfaces", "web", "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "environment": f"{PROJECT_NAME}.interfaces.web.jinja2.environment",
+        },
+    },
+    {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [],
         "APP_DIRS": True,

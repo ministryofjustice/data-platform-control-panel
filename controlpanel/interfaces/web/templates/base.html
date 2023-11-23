@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-{% extends "govuk_frontend_django/base.html" %}
-{% load static govuk_frontend_django %}
 
 {% block title %}Data Platform Control Panel{% endblock title %}
 
 {% block head %}
-    <link href="{% static 'app.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{{ static('app.css') }}" rel="stylesheet" type="text/css" />
 {% endblock head %}
 
 {% block header %}
     {% include "includes/header.html" %}
 {% endblock header %}
 
+{% block content %}
+
+{% endblock %}
 
 {% block body_end %}
-    <script src="{% static 'assets/js/govuk.js' %}"></script>
+    <script src="{{ static('assets/js/govuk.js') }}"></script>
     <script>window.GOVUKFrontend.initAll()</script>
 {% endblock body_end %}
