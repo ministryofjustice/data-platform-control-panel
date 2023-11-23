@@ -13,6 +13,8 @@ import os
 from os.path import abspath, dirname, join
 from pathlib import Path
 
+import structlog
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,34 +27,47 @@ DJANGO_ROOT = dirname(dirname(abspath(__file__)))
 # Absolute path of project directory
 PROJECT_ROOT = dirname(DJANGO_ROOT)
 
+# Name of the deployment environment (dev/prod)
+ENV = os.environ.get("ENV", "dev")
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", "please_change_me")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS: list = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
+    # Django admin
     "django.contrib.admin",
+    # Django built-in auth models
     "django.contrib.auth",
+    # Django models
     "django.contrib.contenttypes",
+    # Django sessions
     "django.contrib.sessions",
+    # Django flash messages
     "django.contrib.messages",
+    # Django collect static files into a single location
     "django.contrib.staticfiles",
+    # Provides shell_plus, runserver_plus, etc
     "django_extensions",
-    # web frontend
+    # frontend component integration with govuk_frontend node-js package
     "govuk_frontend_django",
+    # Provide structured log service
+    "django_structlog",
+    # The core logic of Control panel
+    "controlpanel.core",
+    # The frontend part of Control panel
     "controlpanel.interfaces.web",
 ]
 
 MIDDLEWARE = [
+    "controlpanel.middleware.DisableClientSideCachingMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -60,7 +75,12 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Structured logging
+    "django_structlog.middlewares.RequestMiddleware",
 ]
+
+# The list of authentication backend used for checking user's access to app
+AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend"]
 
 ROOT_URLCONF = "controlpanel.urls"
 
@@ -81,8 +101,9 @@ TEMPLATES = [
 ]
 
 
-WSGI_APPLICATION = "controlpanel.wsgi.application"
+WSGI_APPLICATION = f"{PROJECT_NAME}.wsgi.application"
 
+ASGI_APPLICATION = f"{PROJECT_NAME}.routing.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -157,3 +178,102 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# -- Auth URL
+
+LOGIN_URL = "login"
+
+LOGOUT_REDIRECT_URL = "/"
+
+ALLOWED_HOSTS: list = []
+
+# Whitelist values for the HTTP Host header, to prevent certain attacks
+ALLOWED_HOSTS = [host for host in os.environ.get("ALLOWED_HOSTS", "").split() if host]
+
+# -- HTTP headers
+# Sets the X-Content-Type-Options: nosniff header
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Secure the CSRF cookie
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+
+# Secure the session cookie
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
+
+# Custom user model class
+AUTH_USER_MODEL = "core.User"
+
+# -- OIDC Settings
+OIDC_DOMAIN = os.environ.get("OIDC_DOMAIN")
+OIDC_RP_CLIENT_ID = os.environ.get("OIDC_RP_CLIENT_ID")
+OIDC_RP_CLIENT_SECRET = os.environ.get("OIDC_RP_CLIENT_SECRET")
+OIDC_RP_SCOPES = "openid email profile offline_access"
+OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS = os.environ.get("OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS", 60 * 60)
+OIDC_LOGOUT_URL = f"https://{OIDC_DOMAIN}/v2/logout"
+
+AUTHLIB_OAUTH_CLIENTS = {
+    "auth0": {
+        "client_id": OIDC_RP_CLIENT_ID,
+        "client_secret": OIDC_RP_CLIENT_SECRET,
+        "server_metadata_url": os.environ.get("OIDC_OP_CONF_URL"),
+        "client_kwargs": {"scope": OIDC_RP_SCOPES},
+    }
+}
+
+
+# -- Logging Settings : structLog
+
+LOG_LEVEL = os.environ.get("LOG_LEVEL", "debug").upper()
+DEFAULT_LOG_FORMATTER = os.environ.get("DEFAULT_LOG_FORMATTER", "plain_console")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": True,
+    "formatters": {
+        "json_formatter": {
+            "()": structlog.stdlib.ProcessorFormatter,
+            "processor": structlog.processors.JSONRenderer(),
+        },
+        "plain_console": {
+            "()": structlog.stdlib.ProcessorFormatter,
+            "processor": structlog.dev.ConsoleRenderer(),
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": DEFAULT_LOG_FORMATTER,
+        },
+    },
+    "loggers": {
+        "django_structlog": {
+            "handlers": ["console"],
+            "level": LOG_LEVEL,
+        },
+        "root": {
+            "handlers": ["console"],
+            "level": LOG_LEVEL,
+        },
+    },
+}
+
+structlog.configure(
+    processors=[
+        structlog.contextvars.merge_contextvars,
+        structlog.stdlib.filter_by_level,
+        structlog.processors.TimeStamper(fmt="iso"),
+        structlog.stdlib.add_logger_name,
+        structlog.stdlib.add_log_level,
+        structlog.stdlib.PositionalArgumentsFormatter(),
+        structlog.processors.StackInfoRenderer(),
+        structlog.processors.format_exc_info,
+        structlog.processors.UnicodeDecoder(),
+        structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
+    ],
+    context_class=structlog.threadlocal.wrap_dict(dict),
+    logger_factory=structlog.stdlib.LoggerFactory(),
+    wrapper_class=structlog.stdlib.BoundLogger,
+    cache_logger_on_first_use=True,
+)

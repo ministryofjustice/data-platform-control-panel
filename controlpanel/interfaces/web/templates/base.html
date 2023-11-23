@@ -9,9 +9,10 @@
 {% endblock head %}
 
 {% block header %}
+    {% url 'data-products' as data_products_url %}
     {% gds_header homepageUrl="/" serviceName="Data platform Control panel" serviceUrl="/" containerClasses="govuk-width-container" %}
-        {% gds_header_nav_item href="/" text="Components" %}
-        {% gds_header_nav_item href="/" text="User list" %}
+        {% gds_header_nav_item href="/" text="Home" %}
+        {% gds_header_nav_item href=data_products_url text="Data products" %}
     {% endgds_header %}
 {% endblock header %}
 
