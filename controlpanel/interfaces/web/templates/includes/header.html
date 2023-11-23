@@ -11,22 +11,18 @@
 
         </svg>
 
-        <a class="moj-header__link moj-header__link--organisation-name" href="#">Ministry of Justice</a>
+        <a class="moj-header__link moj-header__link--organisation-name" href="{{ header_organisation_url }}">Ministry of Justice</a>
 
-        <a class="moj-header__link moj-header__link--service-name" href="#">Data Platform</a>
+        <a class="moj-header__link moj-header__link--service-name" href="{{ header_service_url}}">Data Platform</a>
       </div>
       <div class="moj-header__content">
 
         <nav class="moj-header__navigation" aria-label="Account navigation">
 
           <ul class="moj-header__navigation-list">
-            <li class="moj-header__navigation-item">
-              <a class="moj-header__navigation-link" href="#" aria-current="page">Account name</a>
-            </li>
-
-            <li class="moj-header__navigation-item">
-              <a class="moj-header__navigation-link" href="#">Sign out</a>
-            </li>
+            {% for item in header_nav_items %}
+                {% include "includes/nav_item.html" with item=item level="moj-header__navigation-" %}
+            {% endfor %}
           </ul>
 
         </nav>
@@ -34,4 +30,6 @@
       </div>
     </div>
 
-  </header>
+</header>
+
+{% include "includes/navigation.html" %}
