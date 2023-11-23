@@ -1,13 +1,32 @@
 <!DOCTYPE html>
-
+{% from 'govuk_frontend_jinja/components/header/macro.html' import govukHeader %}
 {% block title %}Data Platform Control Panel{% endblock title %}
 
 {% block head %}
     <link href="{{ static('app.css') }}" rel="stylesheet" type="text/css" />
 {% endblock head %}
 
+
+{% set data_products_url = url("data-products") %}
+
 {% block header %}
-    {% include "includes/header.html" %}
+    {{ govukHeader({
+        "homepageUrl": "/",
+        "productName": "Data Platform Control Panel",
+        "serviceName": "Data Platform",
+        "navigation": [
+            {
+                "text": "Home",
+                "href": '/',
+                "active": request.get_full_path() == "/"
+            },
+            {
+                "text": "Data Products",
+                "href": data_products_url,
+                "active": request.get_full_path() == data_products_url
+            }
+        ]
+    }) }}
 {% endblock header %}
 
 {% block content %}
