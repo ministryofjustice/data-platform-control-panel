@@ -8,6 +8,8 @@ RUN npm install \
 
 FROM public.ecr.aws/docker/library/python:3.11-alpine3.18 AS final
 
+RUN apk add --no-cache --virtual .build-deps libpq-dev libffi-dev gcc musl-dev
+
 WORKDIR /controlpanel
 
 RUN mkdir --parents static/assets/fonts \
@@ -25,6 +27,8 @@ COPY controlpanel controlpanel
 RUN pip install --requirement requirements.txt
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN python manage.py collectstatic --noinput --ignore=*.scss
+
+RUN apk del .build-deps
 
 EXPOSE 8000
 
