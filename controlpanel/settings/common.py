@@ -213,6 +213,7 @@ OIDC_RP_SCOPES = "openid email profile offline_access"
 OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS = os.environ.get("OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS", 60 * 60)
 OIDC_LOGOUT_URL = f"https://{OIDC_DOMAIN}/v2/logout"
 AZURE_OIDC_RP_CLIENT_ID = os.environ.get("AZURE_OIDC_RP_CLIENT_ID")
+AZURE_OIDC_LOGOUT_URL = os.environ.get("AZURE_OIDC_LOGOUT_URL")
 
 AUTHLIB_OAUTH_CLIENTS = {
     "auth0": {

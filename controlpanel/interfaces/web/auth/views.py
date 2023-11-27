@@ -29,7 +29,6 @@ class OIDCLoginView(View):
         code_challenge = pkce_transform(code_verifier)
 
         redirect_uri = request.build_absolute_uri(reverse("authenticate"))
-        print(redirect_uri)
 
         return oauth.azure.authorize_redirect(request, redirect_uri, code_challenge=code_challenge)
 
@@ -62,6 +61,7 @@ class OIDCAuthenticationView(View):
         # code_verifier = request.session["code_verifier"]
         try:
             token = oauth.azure.authorize_access_token(request)
+            request.session["token"] = token
             oidc_auth = OIDCSubAuthenticationBackend(token)
             user = oidc_auth.create_or_update_user()
             if not user:
@@ -76,17 +76,8 @@ class OIDCAuthenticationView(View):
 class OIDCLogoutView(View):
     http_method_names = ["get", "post"]
 
-    def _get_oidc_logout_redirect_url(self, request):
-        params = urlencode(
-            {
-                "returnTo": f"{request.scheme}://{request.get_host()}{reverse('index')}",
-                "client_id": settings.OIDC_RP_CLIENT_ID,
-            }
-        )
-        return f"{settings.OIDC_LOGOUT_URL}?{params}"
-
     def post(self, request):
-        logout_url = self._get_oidc_logout_redirect_url(request)
+        logout_url = settings.AZURE_OIDC_LOGOUT_URL
 
         if request.user.is_authenticated:
             auth.logout(request)
