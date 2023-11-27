@@ -206,25 +206,25 @@ SESSION_COOKIE_SECURE = True
 AUTH_USER_MODEL = "core.User"
 
 # -- OIDC Settings
-OIDC_RP_CLIENT_ID = os.environ.get("OIDC_RP_CLIENT_ID")
-OIDC_RP_SCOPES = "openid email profile Group.ReadWrite.All"
-OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS = os.environ.get("OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS", 60 * 60)
+AZURE_CLIENT_ID = os.environ.get("AZURE_CLIENT_ID")
+AZURE_RP_SCOPES = "openid email profile Group.ReadWrite.All"
+AZURE_RENEW_ID_TOKEN_EXPIRY_SECONDS = os.environ.get("AZURE_RENEW_ID_TOKEN_EXPIRY_SECONDS", 60 * 60)
 AZURE_TENANT_ID = os.environ.get("AZURE_TENANT_ID")
-OIDC_OP_CONF_URL = (
+AZURE_OP_CONF_URL = (
     f"https://login.microsoftonline.com/{AZURE_TENANT_ID}/v2.0/.well-known/openid-configuration"
 )
-OIDC_LOGOUT_URL = f"https://login.microsoftonline.com/{AZURE_TENANT_ID}/oauth2/v2.0/logout"
-OIDC_CODE_CHALLENGE_METHOD = os.environ.get("OIDC_CODE_CHALLENGE_METHOD", "S256")
+AZURE_LOGOUT_URL = f"https://login.microsoftonline.com/{AZURE_TENANT_ID}/oauth2/v2.0/logout"
+AZURE_CODE_CHALLENGE_METHOD = os.environ.get("AZURE_CODE_CHALLENGE_METHOD", "S256")
 
 AUTHLIB_OAUTH_CLIENTS = {
     "azure": {
-        "client_id": OIDC_RP_CLIENT_ID,
-        "server_metadata_url": OIDC_OP_CONF_URL,
+        "client_id": AZURE_CLIENT_ID,
+        "server_metadata_url": AZURE_OP_CONF_URL,
         "client_kwargs": {
-            "scope": OIDC_RP_SCOPES,
+            "scope": AZURE_RP_SCOPES,
             "response_type": "code",
             "token_endpoint_auth_method": "none",
-            "code_challenge_method": OIDC_CODE_CHALLENGE_METHOD,
+            "code_challenge_method": AZURE_CODE_CHALLENGE_METHOD,
         },
     },
 }

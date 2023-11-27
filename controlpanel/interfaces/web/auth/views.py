@@ -1,5 +1,3 @@
-import base64
-import hashlib
 import time
 
 from django.conf import settings
@@ -13,18 +11,12 @@ from authlib.common.security import generate_token
 from authlib.integrations.django_client import OAuthError
 
 from controlpanel.core.auth import OIDCSubAuthenticationBackend, oauth
-
-
-def pkce_transform(code_verifier):
-    """Transforms the code verifier to a code challenge."""
-    digest = hashlib.sha256(code_verifier.encode()).digest()
-    return base64.urlsafe_b64encode(digest).rstrip(b"=").decode()
+from controlpanel.core.auth.utils import pkce_transform
 
 
 class OIDCLoginView(View):
     def get(self, request):
         code_verifier = generate_token(64)
-        # request.session["code_verifier"] = code_verifier
         code_challenge = pkce_transform(code_verifier)
 
         redirect_uri = request.build_absolute_uri(reverse("authenticate"))
@@ -36,7 +28,7 @@ class OIDCAuthenticationView(View):
     def _update_sessions(self, request, token):
         """TBD should we consider renewing the id_token?"""
         request.session["oidc_id_token_renew_gap"] = (
-            time.time() + settings.OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS
+            time.time() + settings.AZURE_RENEW_ID_TOKEN_EXPIRY_SECONDS
         )
         request.session["oidc_access_token_expiration"] = token.get("expires_at")
         request.session["oidc_id_token_expiration"] = token["userinfo"].get("exp")
@@ -74,7 +66,7 @@ class OIDCLogoutView(View):
     http_method_names = ["get", "post"]
 
     def post(self, request):
-        logout_url = settings.OIDC_LOGOUT_URL
+        logout_url = settings.AZURE_LOGOUT_URL
 
         if request.user.is_authenticated:
             auth.logout(request)
