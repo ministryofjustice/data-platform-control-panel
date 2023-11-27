@@ -25,13 +25,13 @@ def pkce_transform(code_verifier):
 class OIDCLoginView(View):
     def get(self, request):
         code_verifier = generate_token(64)
-        request.session["code_verifier"] = code_verifier
+        # request.session["code_verifier"] = code_verifier
         code_challenge = pkce_transform(code_verifier)
 
         redirect_uri = request.build_absolute_uri(reverse("authenticate"))
         print(redirect_uri)
 
-        return oauth.azure.authorize_redirect(redirect_uri, code_challenge=code_challenge)
+        return oauth.azure.authorize_redirect(request, redirect_uri, code_challenge=code_challenge)
 
 
 class OIDCAuthenticationView(View):
@@ -58,8 +58,10 @@ class OIDCAuthenticationView(View):
         return redirect(self.failure_url)
 
     def get(self, request):
+        # should this be used?
+        # code_verifier = request.session["code_verifier"]
         try:
-            token = oauth.auth0.authorize_access_token(request)
+            token = oauth.azure.authorize_access_token(request)
             oidc_auth = OIDCSubAuthenticationBackend(token)
             user = oidc_auth.create_or_update_user()
             if not user:

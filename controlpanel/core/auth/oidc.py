@@ -41,7 +41,7 @@ class OIDCSubAuthenticationBackend:
         self.token = token
 
     def filter_users_by_claims(self):
-        user_id = self.token.get("userinfo", {}).get("sub")
+        user_id = self.token.get("userinfo", {}).get("oid")
         return User.objects.filter(pk=user_id).first()
 
     def _get_username(self, user_info):
@@ -50,11 +50,11 @@ class OIDCSubAuthenticationBackend:
     def _create_user(self):
         user_info = self.token.get("userinfo")
         return User.objects.create(
-            pk=user_info.get("sub"),
+            pk=user_info.get("oid"),
             username=self._get_username(user_info),
-            nickname=user_info.get("nickname"),
+            nickname=user_info.get("nickname", ""),
             email=user_info.get("email"),
-            name=user_info.get("name"),
+            name=user_info.get("name", ""),
         )
 
     def _update_user(self, user):
@@ -68,7 +68,7 @@ class OIDCSubAuthenticationBackend:
             user.email = user_info.get("email")
             user.save()
         if user.name != user_info.get("name"):
-            user.name = user_info.get("name")
+            user.name = user_info.get("name", "")
             user.save()
         return user
 
