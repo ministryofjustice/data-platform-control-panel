@@ -1,3 +1,5 @@
+import base64
+import hashlib
 import time
 from urllib.parse import urlencode
 
@@ -8,15 +10,28 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, View
 
+from authlib.common.security import generate_token
 from authlib.integrations.django_client import OAuthError
 
 from controlpanel.core.auth import OIDCSubAuthenticationBackend, oauth
 
 
+def pkce_transform(code_verifier):
+    """Transforms the code verifier to a code challenge."""
+    digest = hashlib.sha256(code_verifier.encode()).digest()
+    return base64.urlsafe_b64encode(digest).rstrip(b"=").decode()
+
+
 class OIDCLoginView(View):
     def get(self, request):
+        code_verifier = generate_token(64)
+        request.session["code_verifier"] = code_verifier
+        code_challenge = pkce_transform(code_verifier)
+
         redirect_uri = request.build_absolute_uri(reverse("authenticate"))
-        return oauth.auth0.authorize_redirect(request, redirect_uri)
+        print(redirect_uri)
+
+        return oauth.azure.authorize_redirect(redirect_uri, code_challenge=code_challenge)
 
 
 class OIDCAuthenticationView(View):

@@ -212,6 +212,7 @@ OIDC_RP_CLIENT_SECRET = os.environ.get("OIDC_RP_CLIENT_SECRET")
 OIDC_RP_SCOPES = "openid email profile offline_access"
 OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS = os.environ.get("OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS", 60 * 60)
 OIDC_LOGOUT_URL = f"https://{OIDC_DOMAIN}/v2/logout"
+AZURE_OIDC_RP_CLIENT_ID = os.environ.get("AZURE_OIDC_RP_CLIENT_ID")
 
 AUTHLIB_OAUTH_CLIENTS = {
     "auth0": {
@@ -219,7 +220,18 @@ AUTHLIB_OAUTH_CLIENTS = {
         "client_secret": OIDC_RP_CLIENT_SECRET,
         "server_metadata_url": os.environ.get("OIDC_OP_CONF_URL"),
         "client_kwargs": {"scope": OIDC_RP_SCOPES},
-    }
+    },
+    "azure": {
+        "client_id": AZURE_OIDC_RP_CLIENT_ID,
+        "server_metadata_url": os.environ.get("AZURE_OIDC_OP_CONF_URL"),
+        "client_kwargs": {
+            "scope": f"{OIDC_RP_SCOPES} Group.ReadWrite.All",
+            "response_type": "code",
+            "token_endpoint_auth_method": "none",
+            # PKCE code_challenge_methods can be plain or S256, here we use S256
+            "code_challenge_method": "S256",
+        },
+    },
 }
 
 
