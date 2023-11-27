@@ -56,8 +56,6 @@ class OIDCAuthenticationView(View):
         return redirect(self.failure_url)
 
     def get(self, request):
-        # should this be used?
-        # code_verifier = request.session["code_verifier"]
         try:
             token = oauth.azure.authorize_access_token(request)
             request.session["token"] = token
@@ -76,7 +74,7 @@ class OIDCLogoutView(View):
     http_method_names = ["get", "post"]
 
     def post(self, request):
-        logout_url = settings.AZURE_OIDC_LOGOUT_URL
+        logout_url = settings.OIDC_LOGOUT_URL
 
         if request.user.is_authenticated:
             auth.logout(request)
