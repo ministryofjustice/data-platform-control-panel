@@ -11,7 +11,6 @@ from controlpanel.core.models.user import User
 logger = structlog.get_logger(__name__)
 
 oauth = OAuth()
-# oauth.register("auth0", **(settings.AUTHLIB_OAUTH_CLIENTS["auth0"]))
 oauth.register(
     "azure",
     client_id=settings.AUTHLIB_OAUTH_CLIENTS["azure"]["client_id"],
@@ -103,8 +102,8 @@ class OIDCSessionValidator:
         """
         try:
             redirect_uri = self.request.build_absolute_uri(reverse("authenticate"))
-            # TODO come back to this
-            return oauth.auth0.authorize_redirect(self.request, redirect_uri, prompt="none")
+            # TODO update if/when selent auth is enabled
+            return oauth.azure.authorize_redirect(self.request, redirect_uri, prompt="none")
         except OAuthError as ex:
             logger.debug("Failed to perform silence-auth due to error (%s)", ex.__str__())
             return False
