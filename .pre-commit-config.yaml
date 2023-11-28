@@ -29,9 +29,6 @@ repos:
     hooks:
       - id: mypy
         name: mypy
-        additional_dependencies:
-          - django-stubs
-          - psycopg2-binary
 
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0

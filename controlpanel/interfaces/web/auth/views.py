@@ -1,5 +1,4 @@
 import time
-from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib import auth
@@ -8,22 +7,28 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, View
 
+from authlib.common.security import generate_token
 from authlib.integrations.django_client import OAuthError
 
 from controlpanel.core.auth import OIDCSubAuthenticationBackend, oauth
+from controlpanel.core.auth.utils import pkce_transform
 
 
 class OIDCLoginView(View):
     def get(self, request):
+        code_verifier = generate_token(64)
+        code_challenge = pkce_transform(code_verifier)
+
         redirect_uri = request.build_absolute_uri(reverse("authenticate"))
-        return oauth.auth0.authorize_redirect(request, redirect_uri)
+
+        return oauth.azure.authorize_redirect(request, redirect_uri, code_challenge=code_challenge)
 
 
 class OIDCAuthenticationView(View):
     def _update_sessions(self, request, token):
         """TBD should we consider renewing the id_token?"""
         request.session["oidc_id_token_renew_gap"] = (
-            time.time() + settings.OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS
+            time.time() + settings.AZURE_RENEW_ID_TOKEN_EXPIRY_SECONDS
         )
         request.session["oidc_access_token_expiration"] = token.get("expires_at")
         request.session["oidc_id_token_expiration"] = token["userinfo"].get("exp")
@@ -44,7 +49,8 @@ class OIDCAuthenticationView(View):
 
     def get(self, request):
         try:
-            token = oauth.auth0.authorize_access_token(request)
+            token = oauth.azure.authorize_access_token(request)
+            request.session["token"] = token
             oidc_auth = OIDCSubAuthenticationBackend(token)
             user = oidc_auth.create_or_update_user()
             if not user:
@@ -59,17 +65,8 @@ class OIDCAuthenticationView(View):
 class OIDCLogoutView(View):
     http_method_names = ["get", "post"]
 
-    def _get_oidc_logout_redirect_url(self, request):
-        params = urlencode(
-            {
-                "returnTo": f"{request.scheme}://{request.get_host()}{reverse('index')}",
-                "client_id": settings.OIDC_RP_CLIENT_ID,
-            }
-        )
-        return f"{settings.OIDC_LOGOUT_URL}?{params}"
-
     def post(self, request):
-        logout_url = self._get_oidc_logout_redirect_url(request)
+        logout_url = settings.AZURE_LOGOUT_URL
 
         if request.user.is_authenticated:
             auth.logout(request)
