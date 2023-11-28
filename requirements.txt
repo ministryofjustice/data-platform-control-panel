@@ -1,6 +1,6 @@
 asgiref==3.7.2
 Authlib==1.2.1
-certifi==2023.7.22
+certifi==2023.11.17
 cfgv==3.4.0
 Django==4.2.7
 django-structlog==6.0.0
