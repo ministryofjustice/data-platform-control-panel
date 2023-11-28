@@ -1,6 +1,6 @@
 #!make
 
-REPOSITORY ?=controlpanel
+REPOSITORY ?= controlpanel
 IMAGE_TAG ?= local
 REGISTRY ?= 593291632749.dkr.ecr.eu-west-1.amazonaws.com
 export
