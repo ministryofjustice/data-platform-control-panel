@@ -1,7 +1,7 @@
-# Build
+### Build
 docker build --file Dockerfile --tag controlpanel .
 
-# Run
+### Run
 docker run \
   --rm \
   --name controlpanel-migrate \
