@@ -21,6 +21,7 @@ COPY --from=build-node node_modules/govuk-frontend/govuk/all.js static/assets/js
 COPY scripts/container/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY requirements.txt manage.py ./
 COPY controlpanel controlpanel
+COPY tests tests
 
 RUN pip install --requirement requirements.txt
 RUN chmod +x /usr/local/bin/entrypoint.sh
@@ -28,6 +29,4 @@ RUN python manage.py collectstatic --noinput --ignore=*.scss
 
 EXPOSE 8000
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-
-CMD ["run"]
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "-w", "4", "controlpanel.asgi:application"]

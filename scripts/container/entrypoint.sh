@@ -5,7 +5,7 @@ MODE=${MODE:-"run"}
 case "$MODE" in
     "run")
         echo "Running Django server"
-        python manage.py runserver --verbosity 2
+        gunicorn -b 0.0.0.0:8000 -k uvicorn.workers.UvicornWorker -w 4 controlpanel.asgi:application
         ;;
     "migrate")
         echo "Running Django migrations"

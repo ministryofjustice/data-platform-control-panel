@@ -252,7 +252,7 @@ LOGGING = {
             "handlers": ["console"],
             "level": LOG_LEVEL,
         },
-        "root": {
+        "controlpanel": {
             "handlers": ["console"],
             "level": LOG_LEVEL,
         },
