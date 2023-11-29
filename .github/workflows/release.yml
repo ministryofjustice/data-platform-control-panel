@@ -48,4 +48,7 @@ jobs:
       - name: Verify
         id: verify
         run: |
-          cosign verify ghcr.io/${{ github.repository_owner }}/data-platform-control-panel:${{ github.ref_name }}
+          cosign verify \
+          --certificate-oidc-issuer=https://token.actions.githubusercontent.com \
+          --certificate-identity=https://github.com/${{ github.repository_owner }}/data-platform-control-panel/.github/workflows/release.yml@refs/tags/${{ github.ref_name }}
+          ghcr.io/${{ github.repository_owner }}/data-platform-control-panel:${{ github.ref_name }}
