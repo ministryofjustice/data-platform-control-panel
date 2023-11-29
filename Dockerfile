@@ -9,10 +9,11 @@ RUN npm install \
 
 FROM public.ecr.aws/docker/library/python:3.11-alpine3.18 AS final
 
-RUN apk add --no-cache --virtual .build-deps libpq-dev=15.5-r0 \
+RUN apk add --no-cache --virtual .build-deps \
     libffi-dev=3.4.4-r2 \
     gcc=12.2.1_git20220924-r10 \
-    musl-dev=1.2.4-r2
+    musl-dev=1.2.4-r2 \
+    && apk add --no-cache libpq-dev=15.5-r0
 
 WORKDIR /controlpanel
 
