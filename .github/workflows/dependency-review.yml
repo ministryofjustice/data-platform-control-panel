@@ -1,7 +1,7 @@
 ---
 name: Dependency review
 
-on: # yamllint disable-line rule:truthy
+on:
   pull_request:
     types:
       - edited
