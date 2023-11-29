@@ -21,7 +21,7 @@ build-js:
 	cp node_modules/govuk-frontend/govuk/all.js static/assets/js/govuk.js
 
 build-image:
-	@docker-compose build interfaces
+	docker build -t ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} . --load
 
 db-migrate:
 	python manage.py migrate
