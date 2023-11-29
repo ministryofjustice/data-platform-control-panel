@@ -1,4 +1,4 @@
-version: "3.11"
+version: "3"
 services:
   db:
     image: "postgres:16.1"
@@ -32,8 +32,6 @@ services:
     image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG:-latest}
     build:
       context: .
-      additional_contexts:
-        - output=type=docker
       dockerfile: Dockerfile
     ports: ["8000:8000"]
     depends_on:
