@@ -1,5 +1,6 @@
 FROM public.ecr.aws/docker/library/node:20.9.0 AS build-node
 
+WORKDIR /
 COPY package.json package-lock.json ./
 COPY controlpanel/interfaces/web/static/app.scss ./controlpanel/interfaces/web/static/app.scss
 
