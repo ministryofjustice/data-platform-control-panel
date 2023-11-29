@@ -28,11 +28,10 @@ COPY scripts/container/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY requirements.txt manage.py ./
 COPY controlpanel controlpanel
 
-RUN pip install --no-cache-dir --requirement requirements.txt
-RUN chmod +x /usr/local/bin/entrypoint.sh
-RUN python manage.py collectstatic --noinput --ignore=*.scss
-
-RUN apk del .build-deps
+RUN pip install --no-cache-dir --requirement requirements.txt \
+    && chmod +x /usr/local/bin/entrypoint.sh \
+    && python manage.py collectstatic --noinput --ignore=*.scss \
+    && apk del .build-deps
 
 EXPOSE 8000
 
