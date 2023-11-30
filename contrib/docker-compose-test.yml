@@ -5,7 +5,7 @@ services:
       service: postgres
 
   interfaces:
-    image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG:-latest}
+    image: ${IMAGE_TAG}
     ports: ["8000:8000"]
     depends_on:
       db:
