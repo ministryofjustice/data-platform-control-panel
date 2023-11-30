@@ -1,5 +1,5 @@
 services:
-  web:
+  db:
     extends:
       file: docker-compose-postgres.yml
       service: postgres
