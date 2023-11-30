@@ -16,18 +16,21 @@ AUTHENTICATION_BACKENDS = [
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 
-OIDC_RP_CLIENT_ID = "testing"
-OIDC_RP_CLIENT_SECRET = "testing"
-OIDC_RP_SCOPES = "openid email profile offline_access"
-OIDC_OP_CONF_URL = "https://testing.oidc.com/.well-known/openid-configuration"
+AZURE_CLIENT_ID = "testing"
+AZURE_CODE_CHALLENGE_METHOD = "testing"
+AZURE_RP_SCOPES = "openid email profile offline_access"
+AZURE_OP_CONF_URL = "https://testing.oidc.com/.well-known/openid-configuration"
 
 
 AUTHLIB_OAUTH_CLIENTS = {
-    "auth0": {
-        "client_id": OIDC_RP_CLIENT_ID,
-        "client_secret": OIDC_RP_CLIENT_SECRET,
-        "server_metadata_url": OIDC_OP_CONF_URL,
-        "client_kwargs": {"scope": OIDC_RP_SCOPES},
-    }
+    "azure": {
+        "client_id": AZURE_CLIENT_ID,
+        "server_metadata_url": AZURE_OP_CONF_URL,
+        "client_kwargs": {
+            "scope": AZURE_RP_SCOPES,
+            "response_type": "code",
+            "token_endpoint_auth_method": "none",
+            "code_challenge_method": AZURE_CODE_CHALLENGE_METHOD,
+        },
+    },
 }
-
