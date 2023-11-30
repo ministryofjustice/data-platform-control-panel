@@ -2,7 +2,7 @@ services:
   web:
     extends:
       file: docker-compose-postgres.yml
-      service: webapp
+      service: postgres
 
   interfaces:
     image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG:-latest}
