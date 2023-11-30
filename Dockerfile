@@ -37,5 +37,6 @@ RUN pip install --no-cache-dir --requirement requirements.txt \
 
 EXPOSE 8000
 
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "-w", "4", "controlpanel.asgi:application"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
+CMD ["run"]
