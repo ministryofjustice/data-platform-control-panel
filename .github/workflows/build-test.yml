@@ -57,7 +57,7 @@ jobs:
 
       - name: Run Python tests (docker-compose)
         run: |
-          docker compose --file contrib/docker-compose-test.yml run --rm interfaces sh -c "pytest tests --color=yes"
+          docker compose --file contrib/docker-compose-test.yml run --rm interfaces
         env:
           NETWORK: default
           IMAGE_TAG: control-panel
