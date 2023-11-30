@@ -1,10 +1,5 @@
 #!make
 
-REPOSITORY ?= controlpanel
-IMAGE_TAG ?= local
-REGISTRY ?= 593291632749.dkr.ecr.eu-west-1.amazonaws.com
-export
-
 build:
 	make build-static
 	make build-js
@@ -19,9 +14,6 @@ build-static:
 build-js:
 	mkdir -p static/assets/js
 	cp node_modules/govuk-frontend/govuk/all.js static/assets/js/govuk.js
-
-build-image:
-	docker build -t ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} . --load
 
 db-migrate:
 	python manage.py migrate
