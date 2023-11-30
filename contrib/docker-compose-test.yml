@@ -15,7 +15,7 @@ services:
       ALLOWED_HOSTS: "localhost 127.0.0.1 0.0.0.0"
       DB_HOST: "db"
       DB_NAME: controlpanel
-      DB_PASSWORD: password
+      DB_PASSWORD: controlpanel
       DB_PORT: 5432
       DB_USER: controlpanel
       DEBUG: "True"
