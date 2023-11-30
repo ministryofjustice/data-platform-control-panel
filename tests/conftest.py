@@ -1,6 +1,6 @@
 import pytest
-
 from model_bakery import baker
+
 
 @pytest.fixture
 def superuser(db):
