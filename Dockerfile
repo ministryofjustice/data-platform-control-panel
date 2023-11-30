@@ -28,6 +28,7 @@ COPY --from=build-node node_modules/govuk-frontend/govuk/all.js static/assets/js
 COPY scripts/container/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY requirements.txt manage.py ./
 COPY controlpanel controlpanel
+COPY tests tests
 
 RUN pip install --no-cache-dir --requirement requirements.txt \
     && chmod +x /usr/local/bin/entrypoint.sh \

@@ -1,5 +1,5 @@
 ---
-name: Build
+name: Build & Test
 
 on:
   pull_request:
@@ -54,3 +54,10 @@ jobs:
         uses: github/codeql-action/upload-sarif@cdcdbb579706841c47f7063dda365e292e5cad7a # v2.2.7
         with:
           sarif_file: trivy-results.sarif
+
+      - name: Run Python tests (docker-compose)
+        run: |
+          docker compose --file contrib/docker-compose-test.yml run --rm interfaces
+        env:
+          NETWORK: default
+          IMAGE_TAG: control-panel
