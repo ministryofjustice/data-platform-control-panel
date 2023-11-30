@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from os.path import abspath, dirname, join
 from pathlib import Path
+from typing import Any, Dict
 
 import structlog
 
@@ -235,7 +236,7 @@ AUTHLIB_OAUTH_CLIENTS = {
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "debug").upper()
 DEFAULT_LOG_FORMATTER = os.environ.get("DEFAULT_LOG_FORMATTER", "plain_console")
 
-LOGGING = {
+LOGGING: Dict[str, Any] = {
     "version": 1,
     "disable_existing_loggers": True,
     "formatters": {
