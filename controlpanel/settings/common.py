@@ -96,8 +96,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "controlpanel.interfaces.web.context_processors.nav_items",
-                "controlpanel.interfaces.web.context_processors.header_context",
             ],
         },
     },
