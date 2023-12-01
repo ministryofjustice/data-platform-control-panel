@@ -1,10 +1,10 @@
 #!make
 
-build:
-	make build-static
+build-static:
+	make build-css
 	make build-js
 
-build-static:
+build-css:
 	mkdir -p static/assets/fonts
 	mkdir -p static/assets/images
 	cp -R node_modules/govuk-frontend/govuk/assets/fonts/. static/assets/fonts
