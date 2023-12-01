@@ -17,7 +17,7 @@ class BaseView(OIDCLoginRequiredMixin, TemplateView):
         context.update(self.get_header_context())
         return context
 
-    def get_nav_items(self):
+    def get_nav_items(self) -> list[dict]:
         return [
             {"name": "Home", "url": "/", "active": self.request.get_full_path() == "/"},
             {
@@ -27,7 +27,7 @@ class BaseView(OIDCLoginRequiredMixin, TemplateView):
             },
         ]
 
-    def get_header_context(self):
+    def get_header_context(self) -> dict[str, Any]:
         login_logout_url = (
             reverse("logout") if self.request.user.is_authenticated else reverse("login")
         )
