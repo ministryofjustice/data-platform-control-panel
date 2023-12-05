@@ -1,5 +1,5 @@
-from controlpanel.interfaces.web.views import BaseView
+from django.views.generic import TemplateView
 
 
-class DataProductsView(BaseView):
+class DataProductsView(TemplateView):
     template_name = "data-products.html"
