@@ -28,20 +28,17 @@ class BaseView(OIDCLoginRequiredMixin, TemplateView):
         ]
 
     def get_header_context(self) -> dict[str, Any]:
-        login_logout_url = (
-            reverse("logout") if self.request.user.is_authenticated else reverse("login")
-        )
         return {
             "header_nav_items": [
                 {
                     "name": self.request.user.name,
-                    "url": "#tbc",
-                    "active": True,
+                    "url": "",
                 },
                 {
                     "name": "Sign out" if self.request.user.is_authenticated else "Sign in",
-                    "url": login_logout_url,
-                    "active": self.request.get_full_path() == login_logout_url,
+                    "url": reverse("logout")
+                    if self.request.user.is_authenticated
+                    else reverse("login"),
                 },
             ],
             "header_organisation_url": "https://www.gov.uk/government/organisations/ministry-of-justice",  # noqa

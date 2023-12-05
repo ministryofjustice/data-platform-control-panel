@@ -27,3 +27,20 @@ class TestBaseView:
         data_products = {"name": "Data Products", "url": reverse("data-products"), "active": False}
         assert home in nav_items
         assert data_products in nav_items
+
+    def test_get_header_context(self, view_obj, superuser):
+        header_context = view_obj.get_header_context()
+        expected_nav_items = [
+            {"name": superuser.name, "url": ""},
+            {"name": "Sign out", "url": reverse("logout")},
+        ]
+
+        assert header_context.get("header_nav_items") == expected_nav_items
+        assert (
+            header_context.get("header_organisation_url")
+            == "https://www.gov.uk/government/organisations/ministry-of-justice"
+        )
+        assert (
+            header_context.get("header_service_url")
+            == "https://github.com/ministryofjustice/data-platform"
+        )
