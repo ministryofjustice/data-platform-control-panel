@@ -1,8 +1,10 @@
+---
+
 name: Enforce Version Pinning
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   check-version-pinning:
