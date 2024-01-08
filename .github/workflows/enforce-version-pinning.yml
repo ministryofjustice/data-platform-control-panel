@@ -19,7 +19,6 @@ jobs:
             echo "Unpinned dependencies found in requirements.txt"
             echo "❌ Unpinned dependencies found in requirements.txt"
             exit 1
-          fi
           else
             echo "✅ All dependencies are correctly pinned."
           fi
