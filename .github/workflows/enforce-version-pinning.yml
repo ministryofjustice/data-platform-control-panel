@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Check for pinned versions in requirements.txt
         run: |
           if grep -v '==' requirements.txt; then
@@ -26,7 +27,7 @@ jobs:
       - name: Check for pinned versions in package.json
         run: |
           UNPINNED=$(grep -E '"[^"]+": "\^|~' package.json || true)
-          if [ ! -z "$UNPINNED" ]; then
+          if [ -n "$UNPINNED" ]; then
             echo "❌ Unpinned dependencies found in package.json:"
             echo "$UNPINNED"
             exit 1
