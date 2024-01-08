@@ -1,0 +1,33 @@
+name: Enforce Version Pinning
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-version-pinning:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Check for pinned versions in requirements.txt
+        run: |
+          if grep -v '==' requirements.txt; then
+            echo "Unpinned dependencies found in requirements.txt"
+            echo "❌ Unpinned dependencies found in requirements.txt"
+            exit 1
+          fi
+          else
+            echo "✅ All dependencies are correctly pinned."
+          fi
+
+      - name: Check for pinned versions in package.json
+        run: |
+          UNPINNED=$(grep -E '"[^"]+": "\^|~' package.json || true)
+          if [ ! -z "$UNPINNED" ]; then
+            echo "❌ Unpinned dependencies found in package.json:"
+            echo "$UNPINNED"
+            exit 1
+          else
+            echo "✅ All dependencies are correctly pinned."
+          fi
