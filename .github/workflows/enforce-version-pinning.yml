@@ -15,7 +15,7 @@ jobs:
 
       - name: Check for pinned versions in requirements.txt
         run: |
-          if grep -v '==' requirements.txt; then
+          if grep -q -v '==' requirements.txt; then
             echo "Unpinned dependencies found in requirements.txt"
             echo "❌ Unpinned dependencies found in requirements.txt"
             exit 1
